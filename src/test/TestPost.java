@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import request.JoinGame;
 import request.MakePost;
 import request.MethodWrapper;
+import request.RegisterGame;
 
 import com.google.gson.Gson;
 
@@ -18,9 +19,9 @@ public class TestPost {
 	
 	public String run(){
 		MakePost mp = new MakePost("http://1-dot-utopian-hearth-532.appspot.com/test2");
-		JoinGame jg = new JoinGame(0, "test");
-		String jgs = g.toJson(jg);
-		MethodWrapper mw = new MethodWrapper("joinGame", jgs);
+		RegisterGame rg = new RegisterGame("http://1-dot-utopian-hearth-533.appspot.com/test");
+		String gts = g.toJson(rg);
+		MethodWrapper mw = new MethodWrapper("registerGame", gts);
 		try {
 			return mp.execute(mw);
 	    } 
