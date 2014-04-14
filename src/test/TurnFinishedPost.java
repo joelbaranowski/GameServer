@@ -6,6 +6,7 @@ import request.JoinGame;
 import request.MakePost;
 import request.MethodWrapper;
 import request.RegisterGame;
+import request.TurnFinished;
 
 import com.google.gson.Gson;
 
@@ -13,14 +14,14 @@ import com.google.gson.Gson;
  * @author Joel Baranowski
  * 
  */
-public class TestPost {
+public class TurnFinishedPost {
 
 	Gson g = new Gson();
 	
-	public String run(){
+	public String run(TurnFinished tf){
 		MakePost mp = new MakePost("http://1-dot-utopian-hearth-532.appspot.com/test2");
-		RegisterGame rg = new RegisterGame("http://1-dot-utopian-hearth-533.appspot.com/test");
-		String gts = g.toJson(rg);
+		
+		String gts = g.toJson(tf);
 		MethodWrapper mw = new MethodWrapper("registerGame", gts);
 		try {
 			return mp.execute(mw);

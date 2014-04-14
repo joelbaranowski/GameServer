@@ -1,6 +1,7 @@
 package test;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import javax.servlet.http.*;
@@ -12,6 +13,7 @@ import com.google.gson.Gson;
 import request.JoinGame;
 import request.MethodWrapper;
 import request.TakeTurn;
+import request.TurnFinished;
 
 @SuppressWarnings("serial")
 public class TestServlet extends HttpServlet {
@@ -21,11 +23,11 @@ public class TestServlet extends HttpServlet {
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-		resp.setContentType("text/plain");
-		resp.getWriter().println("Hello, world");
-		TestPost tp = new TestPost();
-		String result = tp.run();
-		resp.getWriter().println("result: " + result);
+		String method = req.getParameter("method");
+		String data = req.getParameter("data");
+		if(method == null || data == null)
+			return;
+		this.execute(req.getParameter("method"), URLDecoder.decode(req.getParameter("data"), "UTF-8"), req, resp);
 	}
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) 
@@ -33,8 +35,21 @@ public class TestServlet extends HttpServlet {
 		resp.setContentType("text/plain");
 		resp.getWriter().println("from server");
 		MethodWrapper mw = g.fromJson(req.getReader(), MethodWrapper.class);
-		switch(mw.getMethod()){
+		this.execute(mw.getMethod(), mw.getData(), req, resp);
+	}
 
+	private void execute(String method, String data, HttpServletRequest req, HttpServletResponse resp) throws IOException{
+		switch(method){
+			case "takeTurn":{
+				TakeTurn tt = g.fromJson(data, TakeTurn.class);
+				int playerID = tt.getPlayerID();
+				int currScore = tt.getCurrentScore();
+				TurnFinished tf = new TurnFinished(playerID, currScore + 1);
+				TurnFinishedPost tfp = new TurnFinishedPost();
+				String result = tfp.run(tf);
+				resp.getWriter().println(result);
+				break;
+			}
 		}
 	}
 }
