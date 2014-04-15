@@ -22,7 +22,7 @@ public class TurnFinishedPost {
 		MakePost mp = new MakePost("http://1-dot-utopian-hearth-532.appspot.com/test2");
 		
 		String gts = g.toJson(tf);
-		MethodWrapper mw = new MethodWrapper("registerGame", gts);
+		MethodWrapper mw = new MethodWrapper("turnFinished", gts);
 		try {
 			return mp.execute(mw);
 	    } 
