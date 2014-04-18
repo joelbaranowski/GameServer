@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 import request.JoinGame;
 import request.MethodWrapper;
 import request.TakeTurn;
-import request.TurnFinished;
 
 @SuppressWarnings("serial")
 public class TestServlet extends HttpServlet {
@@ -42,9 +41,9 @@ public class TestServlet extends HttpServlet {
 		switch(method){
 			case "takeTurn":{
 				TakeTurn tt = g.fromJson(data, TakeTurn.class);
-				int playerID = tt.getPlayerID();
-				int currScore = tt.getCurrentScore();
-				TurnFinished tf = new TurnFinished(playerID, currScore + 1);
+				Long playerID = tt.getPlayerID();
+				Long currScore = tt.getCurrentScore();
+				TakeTurn tf = new TakeTurn(playerID, currScore + 1);
 				TurnFinishedPost tfp = new TurnFinishedPost();
 				String result = tfp.run(tf);
 				resp.getWriter().println(result);

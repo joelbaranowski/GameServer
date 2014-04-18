@@ -6,7 +6,7 @@ import request.JoinGame;
 import request.MakePost;
 import request.MethodWrapper;
 import request.RegisterGame;
-import request.TurnFinished;
+import request.TakeTurn;
 
 import com.google.gson.Gson;
 
@@ -18,7 +18,7 @@ public class TurnFinishedPost {
 
 	Gson g = new Gson();
 	
-	public String run(TurnFinished tf){
+	public String run(TakeTurn tf){
 		MakePost mp = new MakePost("http://1-dot-utopian-hearth-532.appspot.com/test2");
 		
 		String gts = g.toJson(tf);
